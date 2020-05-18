@@ -1,0 +1,81 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wacky Widgets</title>
+
+  <!-- CSS -->
+  <link type="text/css" rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+</head>
+
+<body>
+
+  <h1>Wacky Widget Items!</h1>
+
+  <div class="container">
+    {% if items.count %}
+    <table>
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Quality</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+        <tr>
+          <td>
+            {{ item.description }}
+          </td>
+          <td>
+            {{ item.quantity }}
+          </td>
+          <td>
+            <form method="POST" action="{% url 'delete' item.id %}">
+              {% csrf_token%}
+              <button id="red" type="submit">X</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p>No Widget Items Exist</p>
+    <hr>
+    {% endif %}
+  </div>
+  <br>
+  <hr>
+
+  <form action="" method="post">
+    {% csrf_token %}
+    <h3 class="ADDME">Add Widget</h3>
+    <table>
+      {{ form.as_table }}
+    </table>
+  </form> 
+
+
+  <a href="{% url 'add' %}">
+    <button class="AddWidget" type="submit">Add A Widget Item</button>
+  </a>
+
+
+  <!-- <form action="" method="post">
+    {% csrf_token %}
+    <h3 class="ADDME">Add Widget</h3>
+    <table id="AddMeTable">
+      {{ form.as_table }}
+    </table>
+    <input type="submit" value="ADD WIDGET" class='AddWidget'>
+  </form> -->
+
+</body>
+
+</html>
